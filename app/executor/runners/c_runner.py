@@ -1,7 +1,7 @@
 import subprocess, os
 from app.utils.file_utils import create_temp_source_file
 
-def run(code: str, work_dir: str, file_id: str):
+def run(code: str, work_dir: str, file_id:str):
     src = create_temp_source_file(code, "c", work_dir)
     binary = os.path.join(work_dir, f"{file_id}.out")
 

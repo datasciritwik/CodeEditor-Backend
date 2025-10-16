@@ -10,7 +10,7 @@ if not FERNET_SECRET_KEY:
 
 fernet = Fernet(FERNET_SECRET_KEY)
 
-def verify_fernet_token(token: str, ttl: int = 60) -> bool:
+def verify_fernet_token(token: str, ttl: int = 600) -> bool:
     """
     Decrypts and verifies a Fernet token.
     ttl = 60 means token expires after 60 seconds.

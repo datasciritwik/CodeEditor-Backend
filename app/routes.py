@@ -1,9 +1,14 @@
-from fastapi import APIRouter, Header, HTTPException, status
+from fastapi import APIRouter, Header, HTTPException, status, Depends
+from fastapi.responses import JSONResponse
+from fastapi.security import APIKeyHeader
 from .models import CodeSubmission, CodeExecutionResult
 from .executor.sandbox import execute_in_sandbox
 from .utils.fernet_utils import verify_fernet_token
-
+# Load key from environment or raise error
 router = APIRouter()
+
+# Define the security scheme for Swagger UI
+api_key_header = APIKeyHeader(name="authorization", auto_error=False)
 
 @router.post(
     "/questions/{question_id}/run",
@@ -12,7 +17,7 @@ router = APIRouter()
 async def run_code(
     question_id: str,
     payload: CodeSubmission,
-    authorization: str = Header(None, description="Fernet token for secure access"),
+    authorization: str = Depends(api_key_header),
 ):
     """
     Executes code securely in a sandbox.
@@ -25,4 +30,7 @@ async def run_code(
         )
 
     result = execute_in_sandbox(code=payload.code, language=payload.language)
-    return result
+    return JSONResponse(
+        content={"results":result, "questionId": question_id},
+        status_code=status.HTTP_200_OK
+    )
