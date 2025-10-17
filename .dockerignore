@@ -213,3 +213,4 @@ app/test.py
 .env.local
 requirements-development.txt
 LICENSE
+test.html

@@ -1,7 +1,7 @@
 import subprocess, os
 from app.utils.file_utils import create_temp_source_file
 
-def run(code: str, work_dir: str, ):
+def run(code: str, work_dir: str, file_id:str):
     # Use class name matching file_id
     src = create_temp_source_file(code, "java", work_dir)
     class_name = os.path.splitext(os.path.basename(src))[0]
