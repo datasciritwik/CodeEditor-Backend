@@ -1,13 +1,22 @@
-import subprocess, os
-from app.utils.file_utils import create_temp_source_file
+import subprocess, os, re
+from app.utils.file_utils import sanitize_filename, temporary_workdir
 
 def run(code: str, work_dir: str, file_id:str):
-    # Use class name matching file_id
-    src = create_temp_source_file(code, "java", work_dir)
-    class_name = os.path.splitext(os.path.basename(src))[0]
+    # Extract class name from Java code
+    match = re.search(r'public\s+class\s+(\w+)', code)
+    if not match:
+        return "", "Error: Could not find public class declaration in Java code"
+    
+    class_name = match.group(1)
+    safe_class_name = sanitize_filename(class_name)
+    
+    # Create file with class name
+    file_path = os.path.join(work_dir, f"{safe_class_name}.java")
+    with open(file_path, "w", encoding="utf-8") as f:
+        f.write(code.strip() + "\n")
 
     compile_proc = subprocess.run(
-        ["javac", src],
+        ["javac", file_path],
         capture_output=True,
         text=True,
     )
