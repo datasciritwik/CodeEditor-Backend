@@ -214,3 +214,5 @@ app/test.py
 requirements-development.txt
 LICENSE
 test.html
+tests/
+test.bat

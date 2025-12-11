@@ -2,7 +2,11 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .routes import router
 
-app = FastAPI(title="AcesphereAI Secure Multi-Language Code Executor")
+app = FastAPI(title="AcesphereAI Secure Multi-Language Code Executor",
+docs_url="/WE0MjVlMDVjNmY/docs",
+redoc_url=None,
+openapi_url="/WE0MjVlMDVjNmY/openapi.json"
+)
 
 app.add_middleware(
     CORSMiddleware,

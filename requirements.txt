@@ -1,4 +1,5 @@
 fastapi
 uvicorn[standard]
-cryptography
-dotenv
+pandas
+numpy
+gunicorn
